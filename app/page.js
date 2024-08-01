@@ -33,6 +33,7 @@ export default function Home() {
   const [editItemCount, setEditItemCount] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const updateInventory = async () => {
     try {
@@ -141,6 +142,10 @@ export default function Home() {
     setOpen(true);
   };
 
+  const filteredInventory = inventory.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <Box
       height="100vh"
@@ -210,13 +215,47 @@ export default function Home() {
           </Stack>
         </Box>
       </Modal>
-      <Button
-        variant="contained"
-        onClick={handleOpen}
-        sx={{ backgroundColor: "blue", color: "white" }}
+      <Box
+        display="flex"
+        width={{ xs: "100%", sm: "800px" }}
+        justifyContent="space-between"
+        mb={2}
       >
-        Add New Item
-      </Button>
+        <TextField
+          variant="outlined"
+          placeholder="Search items"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{
+            width: "80%",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "white",
+              },
+              "&:hover fieldset": {
+                borderColor: "white",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "white",
+              },
+            },
+            "& .MuiInputBase-input": {
+              color: "white",
+            },
+            "& .MuiInputBase-input::placeholder": {
+              color: "white",
+            },
+          }}
+        />
+
+        <Button
+          variant="contained"
+          onClick={handleOpen}
+          sx={{ backgroundColor: "blue", color: "white" }}
+        >
+          Add New Item
+        </Button>
+      </Box>
       <Box
         width={{ xs: "100%", sm: "800px" }}
         border="1px solid #333"
@@ -235,7 +274,7 @@ export default function Home() {
           </Typography>
         </Box>
         <Stack spacing={2} mt={2}>
-          {inventory.map(({ name, count }) => (
+          {filteredInventory.map(({ name, count }) => (
             <Box
               key={name}
               display="flex"
