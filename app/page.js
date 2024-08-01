@@ -169,7 +169,7 @@ export default function Home() {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <Typography variant="h6">
+          <Typography variant="h6" color="#333">
             {isEditing ? "Edit Item" : "Add Item"}
           </Typography>
           <Stack width="100%" direction="row" spacing={2}>
